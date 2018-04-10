@@ -1,7 +1,7 @@
 import os
 import sys
 
-# Execute from the Dir with the APK
+# Make sure that the path to the .apk have no spaces
 # Usage:
 # Android_compile_and_sign.py [compile/decompile] file.apk]
 #
