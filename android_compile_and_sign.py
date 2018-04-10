@@ -5,12 +5,13 @@ import sys
 # Usage:
 # Android_compile_and_sign.py [compile/decompile] file.apk]
 #
-# Tool in use: apktool, jar2dex, SignApk
+# Tools in use: apktool, jar2dex, SignApk
 # add all tools to the environment path
 
 # TODO: verify tools
 # TODO: error handling
 # TODO: verify paths
+# TODO: support dir with spaces
 
 # Variables
 action = sys.argv[1]
