@@ -1,0 +1,65 @@
+#!/bin/bash
+
+# $1 -o flag
+# $2 organization name
+# $3 -L list flag
+# $4 file with list of domains
+
+#TODO: if the registeret organization name is diffrent - print it to list
+#TODO: finall report
+#TODO: status bar
+
+
+curDate=$(date +"%m%d%Y")
+usage(){
+	echo "./whois_auto -O ORGANIZATION_NAME -L LIST_OF_DOMAINS"
+}
+# check that 4 parameters were passed by the user
+[[ $# -ne 4 ]] && usage
+# verfiy the file
+#TODO verify the parameters
+
+mkdir $HOME/tmp
+output="${HOME}/tmp/output${curDate}.txt"
+temp="${HOME}/tmp/temp"
+Check="${HOME}/tmp/Check.txt"
+result="${HOME}/tmp/AddToPreDefined.csv"
+
+#Clear files
+echo "" > $output
+echo "" > $temp
+echo "" > $Check
+echo "" > $result
+
+# Create the CSV file
+echo "asset type,asset identifier,extra data" > $result
+
+
+while read p; do
+	echo "[+] Check Domain ${p}:" >> $output
+	
+	whois ${p} > $temp
+	
+	echo "[+] Checking ${p}..."
+	
+	while read orgName; do 
+		
+		e=$(cat ${temp} | grep "Organisation")
+		#echo $e
+
+		value=$(grep -i "${orgName}" $temp)
+		echo $value 	
+
+		if [[ -n $value ]] ; then
+
+			echo "[+] ${p} : ${value}" >> $output
+			echo "Domain,${p}," >>  $result
+			echo "[+] Found"
+			
+		fi
+	done < $2
+	echo '' > $temp
+	sleep 1
+done < $4
+
+echo "[+] Done, "
